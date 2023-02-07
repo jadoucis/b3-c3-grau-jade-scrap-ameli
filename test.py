@@ -21,5 +21,21 @@ if page.status_code == 200:
     search_url = page.url
 
 soup = BeautifulSoup(page.text, 'html.parser')
+doctors = soup.find_all("div", class_="item-professionnel")
+infos = []
+for doctor in doctors:
+    id = doctor.find("span", class_="num").text
+    name = doctor.find("h2", class_="ignore-css").text.strip()
+    tel = doctor.find("div", class_="tel").text.strip()
+    address = doctor.find("div", class_="adresse").text.strip()
 
-print(soup)
+    infos.append({"id": id, "name": name, "address": address, "tel": tel})
+
+    # if(id is not None):
+    #     print(id)
+    # elif(name is not None):
+    #     print(name)
+    # else:
+    #     print('la')
+
+    print(infos)
