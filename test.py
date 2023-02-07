@@ -1,5 +1,7 @@
+import pandas as pd
 import requests
 from bs4 import BeautifulSoup
+
 
 payload = {
     "type": "ps",
@@ -26,16 +28,11 @@ infos = []
 for doctor in doctors:
     id = doctor.find("span", class_="num").text
     name = doctor.find("h2", class_="ignore-css").text.strip()
-    tel = doctor.find("div", class_="tel").text.strip()
+    # tel = doctor.find("div", class_="tel").text.strip()
     address = doctor.find("div", class_="adresse").text.strip()
 
-    infos.append({"id": id, "name": name, "address": address, "tel": tel})
+    infos.append({"id": id, "name": name, "address": address})
+    # infos.append({"id": id, "name": name, "address": address, "tel": tel})
 
-    # if(id is not None):
-    #     print(id)
-    # elif(name is not None):
-    #     print(name)
-    # else:
-    #     print('la')
-
-    print(infos)
+    df = pd.DataFrame(infos)
+    df.to_csv("all_doctors.csv", index=False)
